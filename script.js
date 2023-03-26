@@ -14,6 +14,8 @@ let state = "form";
 let players = [];
 let currentPlayer;
 let currentPlayerSimbol;
+let spacesClicked = 0;
+let isGameHover = false;
 
 const initialspaces = [
   {
@@ -84,9 +86,11 @@ let spaces = initialspaces.map((space) => {
 function renderSpaces() {
   containerSpaces.innerHTML = "";
   spaces.map((space) => {
-    const btn = `<button class="space ${space.isWinn ? "isWinn" : ""}" id="${
-      space.id
-    }" onClick="onSpaceClick(${space.id})">${space.filledWith}</button>`;
+    const btn = `<button class="space ${isGameHover ? "gameHover" : ""} ${
+      space.isWinn ? "isWinn" : ""
+    }" id="${space.id}" onClick="onSpaceClick(${space.id})">${
+      space.filledWith
+    }</button>`;
     containerSpaces.insertAdjacentHTML("afterbegin", btn);
   });
 }
@@ -206,9 +210,22 @@ function verifyWin(simbol) {
     spaces[4].isWinn = true;
     spaces[6].isWinn = true;
   }
+
+  if (spacesClicked === 9 && !winn) {
+    isGameHover = true;
+    renderSpaces();
+    setTimeout(() => {
+      containerModal.classList.remove("hidden");
+      modal.innerHTML = "";
+      const p = `<span>GameHover</span><button onClick="restartGame()" class="button">Restart game</button><button onClick="stepCreatePlayers()" class="button">Create players</button>`;
+      modal.insertAdjacentHTML("afterbegin", p);
+    }, 1000);
+  }
 }
 function restartGame() {
   winn = false;
+  spacesClicked = 0;
+  isGameHover = false;
   spaces = initialspaces.map((space) => {
     return {
       id: space.id,
@@ -228,6 +245,8 @@ function stepCreatePlayers() {
   currentPlayer = undefined;
   currentPlayerSimbol = "";
   winn = false;
+  spacesClicked = 0;
+  isGameHover = false;
   spaces = initialspaces.map((space) => {
     return {
       id: space.id,
@@ -253,6 +272,7 @@ function onSpaceClick(id) {
     if (!winn) {
       spaces[index].filledWith = currentPlayerSimbol;
       spaces[index].isFilled = true;
+      spacesClicked += 1;
 
       verifyWin(currentPlayerSimbol);
 
@@ -304,7 +324,7 @@ btnCreate.addEventListener("click", (e) => {
     showCurrentState(state);
 
     modal.innerHTML = "";
-    const p = `<p>Sorteando primeiro jogador(a)...</p>`;
+    const p = `<p>Raffling first player...</p>`;
     modal.insertAdjacentHTML("afterbegin", p);
 
     let firstPlayer = Math.random() >= 0.45 ? 1 : 0;
