@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game#</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <p>Game<span class="header-logo">#</span></p>
+      </header>
+
+      <div class="container-modal hidden" id="container-modal">
+        <div class="modal" id="modal"></div>
+      </div>
+
+      <form class="form hidden" id="form">
+        <h1 id="title">Player 1</h1>
+        <input placeholder="Name or nick" id="name" type="text" />
+        <button class="button" id="btn-create" disabled>Create</button>
+      </form>
+
+      <div class="game hidden" id="game">
+        <p>Turn is of the: <span id="currentPlayer"></span></p>
+
+        <div id="container-spaces" class="container-spaces"></div>
+      </div>
+    </div>
+  </body>
+</html>
